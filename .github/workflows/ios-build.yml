@@ -1,0 +1,61 @@
+name: iOS Build
+
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+jobs:
+  build_ios:
+    name: Build iOS App
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'yarn'
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3'
+          bundler-cache: true
+
+      - name: Install JS dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Install CocoaPods
+        run: cd ios && pod install
+
+      - name: Build iOS App (Archive without signing)
+        run: |
+          cd ios
+          xcodebuild \
+            -workspace pskey.xcworkspace \
+            -scheme pskey \
+            -configuration Release \
+            -sdk iphoneos \
+            -destination generic/platform=iOS \
+            CODE_SIGNING_ALLOWED=NO \
+            archive \
+            -archivePath $PWD/build/pskey.xcarchive
+
+      - name: Export IPA from xcarchive
+        run: |
+          cd ios/build
+          mkdir Payload
+          cp -r pskey.xcarchive/Products/Applications/pskey.app Payload/
+          zip -r ../../pskey-ios.ipa Payload
+
+      - name: Upload IPA Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: pskey-ios-app
+          path: pskey-ios.ipa
+          retention-days: 7
