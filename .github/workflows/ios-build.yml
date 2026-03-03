@@ -45,6 +45,8 @@ jobs:
             CODE_SIGNING_ALLOWED=NO \
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGNING_IDENTITY="" \
+            COMPILER_INDEX_STORE_ENABLE=NO \
+            OTHER_CXXFLAGS="-Wno-incomplete-umbrella" \
             build \
             CONFIGURATION_BUILD_DIR=$PWD/build
 
