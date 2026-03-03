@@ -45,14 +45,14 @@ jobs:
             CODE_SIGNING_ALLOWED=NO \
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGNING_IDENTITY="" \
-            archive \
-            -archivePath $PWD/build/pskey.xcarchive
+            build \
+            CONFIGURATION_BUILD_DIR=$PWD/build
 
       - name: Export IPA from xcarchive
         run: |
           cd ios/build
           mkdir Payload
-          cp -r pskey.xcarchive/Products/Applications/pskey.app Payload/
+          cp -r pskey.app Payload/
           zip -r ../../pskey-ios.ipa Payload
 
       - name: Upload IPA Artifact
