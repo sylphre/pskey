@@ -37,7 +37,9 @@ target 'pskey' do
         # Disable non-modular header include error which causes build failure on CI
         config.build_settings['CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES'] = 'YES'
         # Ignore warning for missing frameworks during static build
-        config.build_settings['OTHER_CFLAGS'] = '$(inherited) -Wno-error=non-modular-include-in-framework-module'
+        config.build_settings['OTHER_CFLAGS'] = '$(inherited) -Wno-error=non-modular-include-in-framework-module -Wno-error=implicit-function-declaration -Wno-error=deprecated-objc-isa-usage'
+        config.build_settings['OTHER_CPLUSPLUSFLAGS'] = '$(inherited) -Wno-error=non-modular-include-in-framework-module'
+        config.build_settings['GCC_TREAT_WARNINGS_AS_ERRORS'] = 'NO'
       end
     end
   end
