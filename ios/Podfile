@@ -45,6 +45,9 @@ target 'pskey' do
         config.build_settings['OTHER_CFLAGS'] = '$(inherited) -Wno-error=non-modular-include-in-framework-module -Wno-error=implicit-function-declaration -Wno-error=deprecated-objc-isa-usage'
         config.build_settings['OTHER_CPLUSPLUSFLAGS'] = '$(inherited) -Wno-error=non-modular-include-in-framework-module'
         config.build_settings['GCC_TREAT_WARNINGS_AS_ERRORS'] = 'NO'
+        
+        # VERY IMPORTANT: React Native relies on C++17. Xcode 16 defaults to C++20 and breaks folly/Hermes.
+        config.build_settings['CLANG_CXX_LANGUAGE_STANDARD'] = 'c++17'
       end
     end
   end
