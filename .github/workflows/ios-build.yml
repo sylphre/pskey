@@ -32,7 +32,7 @@ jobs:
         run: yarn install
 
       - name: Install CocoaPods
-        run: cd ios && USE_FRAMEWORKS=static pod install
+        run: cd ios && pod install
 
       - name: Build iOS App (Archive without signing)
         run: |
