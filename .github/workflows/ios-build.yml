@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+      - ios
   workflow_dispatch:
 
 jobs:
